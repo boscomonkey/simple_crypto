@@ -4,6 +4,11 @@ require 'digest/sha2'
 # This code is derived from Robert Sosinski's "Simple and Restful
 # Account Recovery for Ruby on Rails" - http://tinyurl.com/43zvt4
 #
+# I needed to store Twitter usernames and passwords in a database but
+# I didn't want those values to be stored in the clear. Thus, I use
+# this library to encrypt those values. The key is application wide,
+# while the salt is specific to each Twitter account.
+#
 # Create a new SimpleCrypto object with a key:
 #       crypto = SimpleCrypto.new 'some random key'
 #

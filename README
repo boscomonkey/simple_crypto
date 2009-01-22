@@ -1,0 +1,25 @@
+This code is derived from Robert Sosinski's "Simple and Restful
+Account Recovery for Ruby on Rails" - http://tinyurl.com/43zvt4
+
+I needed to store Twitter usernames and passwords in a database but I
+didn't want those values to be stored in the clear. Thus, I use this
+library to encrypt those values. The key is application wide, while
+the salt is specific to each Twitter account.
+
+Create a new SimpleCrypto object with a key:
+      crypto = SimpleCrypto.new 'some random key'
+
+Encrypt a string (i.e., password) into a hex string
+      enc_hex = crypto.encrypt 'a secret password'
+      # => "71a7343283d61656973ba8923bde22e92b6ed2078da390ab422d8f2377836173"
+
+Decrypt said hex string back into the original string
+      orig = crypto.decrypt enc_hex
+
+Add a salt so that the same password doesn't encrypt to the same hex string
+      salt = SimpleCrypto.new_salt
+      hex2 = crypto.encrypt 'a secret password', salt
+      # => "b14672abb69d077fe43cf57c47b54b448088c782fec4198c2c3548aa8d587b73"
+
+Pass the salt to decrypt to get the same string back
+      orig = crypto.decrypt hex2, salt
